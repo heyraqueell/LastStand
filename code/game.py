@@ -1,27 +1,33 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-from Level import Level
-from Game import Game
-from Difficulty import Difficulty
-from Game import Game
-from Difficulty import Difficulty
+import pygame
+from code.level import Level
+from code.difficulty import Difficulty
+from code.menu import Menu
 
 
-class Game(Level, Game, Difficulty, Game, Difficulty):
+class Game:
     def __init__(self):
-        self.window = None
+        pygame.init()
+        self.window = pygame.display.set_mode((800, 600))
         self.level = None
         self.difficulty = None
 
-    def run(self, ):
+    def run(self):
+
+        while True:
+            menu = Menu(self.window)
+            menu.run()
+            pass
+
+           # for event in pygame.event.get():
+              #  if event.type == pygame.QUIT:
+               #     pygame.quit()
+                #    quit()
+
+    def start_game(self):
         pass
 
-    def start_game(self, ):
+    def game_over(self):
         pass
 
-    def game_over(self, ):
-        pass
-
-    def victory(self, ):
+    def victory(self):
         pass

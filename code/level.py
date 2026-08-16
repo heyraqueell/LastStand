@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from Background import Background
+from code.background import Background
 
 
 class Level(Background):

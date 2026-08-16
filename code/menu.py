@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from Game import Game
+from code.game import Game
 
 
 class Menu(Game):

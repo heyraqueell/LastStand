@@ -7,35 +7,38 @@ class Zombie:
         escala = 2.5
 
         # Sorteia qual dos 3 zumbis será criado
-        tipo = random.choice(["homem", "mulher1", "mulher2"])
+        self.tipo = random.choice(["homem", "mulher1", "mulher2"])
 
-        if tipo == "homem":
-            img_ori = pygame.image.load('./assets/zombies/Walk.png').convert_alpha()
-            colunas = 10
-        elif tipo == "mulher1":
-            img_ori = pygame.image.load('./assets/zombies/WalkWoman.png').convert_alpha()
-            colunas = 12  # Ajustado para 12 quadros da WalkWoman
+        if self.tipo == "homem":
+            caminho_walk = './assets/zombies/Walk.png'
+            caminho_dead = './assets/zombies/Dead.png'
+            colunas_walk = 10
+            colunas_dead = 5  # Ajuste se Dead.png do homem tiver outro número de quadros
+        elif self.tipo == "mulher1":
+            caminho_walk = './assets/zombies/WalkWoman.png'
+            caminho_dead = './assets/zombies/DeadWoman.png'
+            colunas_walk = 12
+            colunas_dead = 5  # Ajuste se DeadWoman.png tiver outro número de quadros
         else:
-            img_ori = pygame.image.load('./assets/zombies/WalkWoman2.png').convert_alpha()
-            colunas = 10  # Ajustado para 10 quadros da WalkWoman2
+            caminho_walk = './assets/zombies/WalkWoman2.png'
+            caminho_dead = './assets/zombies/DeadWoman2.png'
+            colunas_walk = 10
+            colunas_dead = 5  # Ajuste se DeadWoman2.png tiver outro número de quadros
 
-        # Descobre o tamanho exato de 1 quadro
-        largura_frame = img_ori.get_width() // colunas
-        altura_frame = img_ori.get_height()
+        # Carrega os frames de caminhada e de morte
+        img_walk = pygame.image.load(caminho_walk).convert_alpha()
+        img_dead = pygame.image.load(caminho_dead).convert_alpha()
 
-        # Recorta e amplia cada quadro de forma limpa (sem rastro)
-        self.frames = []
-        for i in range(colunas):
-            frame_original = img_ori.subsurface(pygame.Rect(i * largura_frame, 0, largura_frame, altura_frame))
-            frame_limpo = pygame.Surface((largura_frame, altura_frame), pygame.SRCALPHA).convert_alpha()
-            frame_limpo.blit(frame_original, (0, 0))
-            tamanho_escalado = (int(largura_frame * escala), int(altura_frame * escala))
-            frame_ampliado = pygame.transform.scale(frame_limpo, tamanho_escalado)
-            self.frames.append(frame_ampliado)
+        self.walk_frames = self.carregar_frames(img_walk, colunas_walk, escala)
+        self.dead_frames = self.carregar_frames(img_dead, colunas_dead, escala)
 
-        # Variáveis de animação
+        # Estados do zumbi
+        self.frames = self.walk_frames
         self.current_frame = 0
         self.animation_speed = 0.15
+        self.is_dying = False
+        self.is_dead = False
+
         self.image = self.frames[0]
 
         tela_largura = pygame.display.get_surface().get_width()
@@ -46,25 +49,59 @@ class Zombie:
 
         if lado == "esquerda":
             self.rect = self.image.get_rect(midbottom=(-50, tela_altura - 70))
-            self.speed = 2  # Anda para a direita
+            self.speed = 2
             self.facing_right = True
         else:
             self.rect = self.image.get_rect(midbottom=(tela_largura + 50, tela_altura - 70))
-            self.speed = -2  # Anda para a esquerda
+            self.speed = -2
             self.facing_right = False
 
-    def update(self):
-        # Movimentação
-        self.rect.x += self.speed
+    def carregar_frames(self, sheet, colunas, escala):
+        frames = []
+        largura = sheet.get_width() // colunas
+        altura = sheet.get_height()
 
-        # Animação de caminhada
-        self.current_frame += self.animation_speed
-        if self.current_frame >= len(self.frames):
+        for i in range(colunas):
+            frame_original = sheet.subsurface(pygame.Rect(i * largura, 0, largura, altura))
+            frame_limpo = pygame.Surface((largura, altura), pygame.SRCALPHA).convert_alpha()
+            frame_limpo.blit(frame_original, (0, 0))
+            tamanho_escalado = (int(largura * escala), int(altura * escala))
+            frame_ampliado = pygame.transform.scale(frame_limpo, tamanho_escalado)
+            frames.append(frame_ampliado)
+
+        return frames
+
+    def die(self):
+        """Ativa a animação de morte"""
+        if not self.is_dying:
+            self.is_dying = True
+            self.frames = self.dead_frames
             self.current_frame = 0
+            self.speed = 0  # Para de andar imediatamente ao morrer
+
+    def update(self):
+        if self.is_dead:
+            return
+
+        # Movimentação (só anda se não estiver morrendo)
+        if not self.is_dying:
+            self.rect.x += self.speed
+
+        # Animação
+        self.current_frame += self.animation_speed
+
+        if self.is_dying:
+            # Se chegou ao último frame da morte, trava no chão
+            if self.current_frame >= len(self.frames):
+                self.current_frame = len(self.frames) - 1
+                self.is_dead = True  # Marca que o zumbi terminou de cair e está morto no chão
+        else:
+            if self.current_frame >= len(self.frames):
+                self.current_frame = 0
 
         frame_to_draw = self.frames[int(self.current_frame)]
 
-        # Espelha a imagem dependendo do lado para onde ele está andando
+        # Espelha a imagem dependendo do lado
         if not self.facing_right:
             self.image = pygame.transform.flip(frame_to_draw, True, False)
         else:

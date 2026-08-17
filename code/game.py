@@ -9,6 +9,7 @@ from code.menu import Menu
 class Game:
     def __init__(self):
         pygame.init()
+        self.score = 0
 
         self.window = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT)

@@ -75,6 +75,12 @@ class Level:
 
             self.player.draw(self.game.window)
 
+            # --- ADICIONE ESTAS LINHAS AQUI PARA EXIBIR O PLACAR ---
+            fonte = pygame.font.Font(None, 36)
+            texto_score = fonte.render(f"Score: {self.game.score}", True, (255, 255, 255))
+            self.game.window.blit(texto_score, (20, 20))
+            # ------------------------------------------------------
+
             # 4. Atualiza o display e crava em 60 FPS
             pygame.display.flip()
             self.clock.tick(60)
@@ -92,11 +98,12 @@ class Level:
                     if shot in self.shots:
                         self.shots.remove(shot)
                     zombie.die()
+                    self.game.score += 100
 
-        # Verifica se algum zumbi vivo encostou no player
+        # Verifica se o zumbi chegou perto o suficiente do player
         for zombie in self.zombies:
-            if not zombie.is_dying and zombie.rect.colliderect(self.player.rect):
-                # Se encostar, o jogo acaba e volta para o menu
-                self.game.score = 0  # Reseta ou gerencia pontuação se necessário
-                from code.menu import Menu
-                Menu(self.game).run()
+            if not zombie.is_dying:
+                distancia_x = abs(zombie.rect.centerx - self.player.rect.centerx)
+                if distancia_x < 30:
+                    from code.game_over import GameOver
+                    GameOver(self.game).run()

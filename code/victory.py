@@ -5,7 +5,7 @@ import pygame
 from code.const import WINDOW_WIDTH, WINDOW_HEIGHT
 
 
-class GameOver:
+class Victory:
     def __init__(self, game):
         self.game = game
         self.window = game.window
@@ -24,13 +24,13 @@ class GameOver:
                         from code.menu import Menu
                         Menu(self.game).run()
 
-            # Desenha a tela de Game Over
+            # Desenha a tela de Vitória
             self.window.fill((0, 0, 0))
 
-            fonte_titulo = pygame.font.Font(None, 64)
+            fonte_titulo = pygame.font.Font(None, 48)
             fonte_texto = pygame.font.Font(None, 36)
 
-            texto_titulo = fonte_titulo.render("GAME OVER", True, (255, 0, 0))
+            texto_titulo = fonte_titulo.render("PARABÉNS, VOCÊ NÃO FOI INFECTADO!", True, (0, 255, 0))
             texto_score = fonte_texto.render(f"Pontuação Final: {self.game.score}", True, (255, 255, 255))
             texto_instrucao = fonte_texto.render("Pressione ENTER para voltar ao Menu", True, (200, 200, 200))
 

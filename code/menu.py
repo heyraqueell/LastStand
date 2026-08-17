@@ -4,6 +4,7 @@
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
+from code.difficulty import Difficulty
 
 from code.const import WINDOW_WIDTH, COLOR_RED, MENU_OPTION, COLOR_WHITE
 
@@ -79,31 +80,26 @@ class Menu:
             pygame.display.flip()
 
     def select_difficulty(self):
-        pass
+        self.game.difficulty = Difficulty()
 
-    def menu_text(
-            self,
-            text_size: int,
-            text: str,
-            text_color: tuple,
-            text_center_pos: tuple
-    ):
-        text_font: Font = pygame.font.SysFont(
-            name="Lucida Sans Typewriter",
-            size=text_size
-        )
+        if self.selected_option == 0:
+            self.game.difficulty.configure("EASY")
+            self.game.start_game()
 
-        text_surf: Surface = text_font.render(
-            text,
-            True,
-            text_color
-        ).convert_alpha()
+        elif self.selected_option == 1:
+            self.game.difficulty.configure("MEDIUM")
+            self.game.start_game()
 
-        text_rect: Rect = text_surf.get_rect(
-            center=text_center_pos
-        )
+        elif self.selected_option == 2:
+            self.game.difficulty.configure("HARD")
+            self.game.start_game()
 
-        self.window.blit(
-            source=text_surf,
-            dest=text_rect
-        )
+        elif self.selected_option == 3:
+            pygame.quit()
+            quit()
+
+    def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
+            text_font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
+            text_surf = text_font.render(text, True, text_color).convert_alpha()
+            text_rect = text_surf.get_rect(center=text_center_pos)
+            self.window.blit(source=text_surf, dest=text_rect)

@@ -1,23 +1,33 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from Entity import Entity
-from Entity import Entity
-from Entity import Entity
+import pygame
+
+from code.entity import Entity
+from code.shot import Shot
 
 
-class Player(Entity, Entity, Entity):
+class Player(Entity):
     def __init__(self):
-        self.vida = None
-        self.velocidade = None
-        self.direcao = None
-        self.Attribute2 = None
+        super().__init__()
 
-    def move(self, ):
-        pass
+        self.vida = 100
+        self.velocidade = 5
+        self.direcao = 1
 
-    def shoot(self, ):
-        pass
+    def move(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+            self.x -= self.velocidade
+            self.direcao = -1
+
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+            self.x += self.velocidade
+            self.direcao = 1
+
+    def shoot(self):
+        return Shot(self.x, self.y, self.direcao)
 
     def take_damage(self, dano):
-        pass
+        self.vida -= dano

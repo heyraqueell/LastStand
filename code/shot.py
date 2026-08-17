@@ -1,16 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from Entity import Entity
-from Entity import Entity
-from Entity import Entity
+from code.entity import Entity
 
 
-class Shot(Entity, Entity, Entity):
-    def __init__(self):
-        self.velocidade = None
-        self.dano = None
-        self.direcao = None
+class Shot(Entity):
+    def __init__(self, x, y, direcao):
+        super().__init__()
 
-    def move(self, ):
-        pass
+        self.x = x
+        self.y = y
+        self.velocidade = 10
+        self.dano = 50
+        self.direcao = direcao
+
+    def move(self):
+        self.x += self.velocidade * self.direcao

@@ -1,22 +1,29 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from Entity import Entity
-from Entity import Entity
-from Entity import Entity
+from code.player import Player
+from code.background import Background
 
 
-class Zombie(Entity, Entity, Entity):
-    def __init__(self):
-        self.vida = None
-        self.velocidade = None
-        self.dano = None
+class Level:
+    def __init__(self, difficulty):
+        self.duration = difficulty.duration
+        self.time_remaining = difficulty.duration
 
-    def move(self, ):
+        self.player = Player()
+        self.background = Background()
+
+        self.zombies = []
+        self.shots = []
+
+    def run(self):
         pass
 
-    def attack(self, ):
+    def spawn_zombie(self):
         pass
 
-    def take_damage(self, dano):
+    def update(self):
+        pass
+
+    def check_collisions(self):
         pass

@@ -15,9 +15,7 @@ class Game:
 
     def run(self):
         menu = Menu(self)
-
-        while True:
-            menu.run()
+        menu.run()
 
     def start_game(self):
         pass

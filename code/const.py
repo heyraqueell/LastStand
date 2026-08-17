@@ -3,7 +3,7 @@ COLOR_RED = (180, 10, 10)
 COLOR_WHITE = (255, 255, 255)
 
 # M
-MENU_0PTION = ('NEW GAME - EASY',
+MENU_OPTION = ('NEW GAME - EASY',
                'NEW GAME - MEDIUM',
                'NEW GAME - HARD',
                'EXIT'

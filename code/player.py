@@ -26,7 +26,7 @@ class Player:
         self.animation_speed = 0.2
         self.image = self.idle_frames[0]
 
-        # 4. Posição inicial adaptada para a largura REAL da sua tela
+        # 4. Posição inicial adaptada para a largura REAL da tela
         tela_largura = pygame.display.get_surface().get_width()
         tela_altura = pygame.display.get_surface().get_height()
 
@@ -36,8 +36,17 @@ class Player:
         self.facing_right = True
         self.is_moving = False
 
+        # ADICIONE ESTAS LINHAS NO FINAL DO SEU __init__:
+        img_shot_ori = pygame.image.load('./assets/Shot_2.png').convert_alpha()
+        largura_frame_shot = img_shot_ori.get_width() // 4
+        altura_frame_shot = img_shot_ori.get_height()
+        self.shot_frames = self.recortar_e_ampliar(img_shot_ori, 4, largura_frame_shot, altura_frame_shot, escala)
+
+        # Controles do estado do tiro
+        self.is_shooting = False
+        self.shot_timer = 0
+
     def recortar_e_ampliar(self, sheet, colunas, largura, altura, escala):
-        """Recorta o quadro no tamanho original e depois amplia de forma limpa."""
         frames = []
         for i in range(colunas):
             # Recorta o quadro original
@@ -55,6 +64,11 @@ class Player:
         return frames
 
     def update(self):
+        # ADICIONE ESTA LINHA NO INÍCIO DO SEU update():
+        if self.shot_timer > 0:
+            self.shot_timer -= 1
+        else:
+            self.is_shooting = False
         keys = pygame.key.get_pressed()
         self.is_moving = False
 
@@ -84,10 +98,14 @@ class Player:
         self.animate()
 
     def animate(self):
+        # SUBSTITUA O INÍCIO DA SUA FUNÇÃO animate() POR ISSO:
         self.current_frame += self.animation_speed
 
-        # Escolhe a animação correta
-        if self.is_moving:
+        if self.is_shooting:
+            if self.current_frame >= len(self.shot_frames):
+                self.current_frame = len(self.shot_frames) - 1
+            frame_to_draw = self.shot_frames[int(self.current_frame)]
+        elif self.is_moving:
             if self.current_frame >= len(self.run_frames):
                 self.current_frame = 0
             frame_to_draw = self.run_frames[int(self.current_frame)]
@@ -104,3 +122,8 @@ class Player:
 
     def draw(self, window):
         window.blit(self.image, self.rect)
+
+    def shoot(self):
+        self.is_shooting = True
+        self.shot_timer = 10  # Tempo que ele segura a pose (cerca de 10 frames)
+        self.current_frame = 0

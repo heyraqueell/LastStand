@@ -1,18 +1,25 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-from code.entity import Entity
+import pygame
 
 
-class Shot(Entity):
-    def __init__(self, x, y, direcao):
-        super().__init__()
+class Shot:
+    def __init__(self, player_center, facing_right):
+        # Cria um retângulo pequeno para representar o projétil
+        self.image = pygame.Surface((12, 4))
+        self.image.fill((255, 204, 0))  # Amarelo Alerta
 
-        self.x = x
-        self.y = y
-        self.velocidade = 10
-        self.dano = 50
-        self.direcao = direcao
+        # Define a direção e velocidade do disparo
+        self.speed = 15 if facing_right else -15
 
-    def move(self):
-        self.x += self.velocidade * self.direcao
+        # AJUSTE AQUI:
+        # offset_x controla a distância horizontal (mais pra frente da arma)
+        offset_x = 55 if facing_right else -55
+
+        # player_center[1] + 5 abaixa o tiro em direção ao cano da arma
+        self.rect = self.image.get_rect(center=(player_center[0] + offset_x, player_center[1] + 30))
+
+    def update(self):
+        # Desloca o tiro horizontalmente
+        self.rect.x += self.speed
+
+    def draw(self, window):
+        window.blit(self.image, self.rect)

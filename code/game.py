@@ -1,4 +1,6 @@
 import pygame
+
+from code.const import WINDOW_WIDTH, WINDOW_HEIGHT
 from code.level import Level
 from code.difficulty import Difficulty
 from code.menu import Menu
@@ -7,21 +9,15 @@ from code.menu import Menu
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode((800, 600))
+        self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.level = None
         self.difficulty = None
 
     def run(self):
+        menu = Menu(self)
 
         while True:
-            menu = Menu(self.window)
             menu.run()
-            pass
-
-           # for event in pygame.event.get():
-              #  if event.type == pygame.QUIT:
-               #     pygame.quit()
-                #    quit()
 
     def start_game(self):
         pass

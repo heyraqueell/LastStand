@@ -2,19 +2,18 @@ import pygame
 
 from code.const import WINDOW_WIDTH, WINDOW_HEIGHT
 from code.level import Level
-from code.difficulty import Difficulty
 from code.menu import Menu
 
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.score = 0
 
         self.window = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT)
         )
 
+        self.score = 0
         self.level = None
         self.difficulty = None
 

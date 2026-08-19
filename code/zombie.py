@@ -13,17 +13,17 @@ class Zombie:
             caminho_walk = './assets/zombies/Walk.png'
             caminho_dead = './assets/zombies/Dead.png'
             colunas_walk = 10
-            colunas_dead = 5  # Ajuste se Dead.png do homem tiver outro número de quadros
+            colunas_dead = 5  # Ajuste Dead.png
         elif self.tipo == "mulher1":
             caminho_walk = './assets/zombies/WalkWoman.png'
             caminho_dead = './assets/zombies/DeadWoman.png'
             colunas_walk = 12
-            colunas_dead = 5  # Ajuste se DeadWoman.png tiver outro número de quadros
+            colunas_dead = 5  # Ajuste DeadWoman.png
         else:
             caminho_walk = './assets/zombies/WalkWoman2.png'
             caminho_dead = './assets/zombies/DeadWoman2.png'
             colunas_walk = 10
-            colunas_dead = 5  # Ajuste se DeadWoman2.png tiver outro número de quadros
+            colunas_dead = 5  # Ajuste DeadWoman2.png
 
         # Carrega os frames de caminhada e de morte
         img_walk = pygame.image.load(caminho_walk).convert_alpha()

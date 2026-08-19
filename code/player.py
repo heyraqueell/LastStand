@@ -1,7 +1,6 @@
 import pygame
 from code.const import WINDOW_WIDTH
 
-
 class Player:
     def __init__(self):
         escala = 2.5
@@ -10,7 +9,7 @@ class Player:
         img_run_ori = pygame.image.load('./assets/Run.png').convert_alpha()
         img_idle_ori = pygame.image.load('./assets/Idle.png').convert_alpha()
 
-        # 2. Descobre o tamanho exato de 1 quadro (original)
+        # 2. Descobre o tamanho exato de 1 quadro
         largura_frame_run = img_run_ori.get_width() // 8
         altura_frame_run = img_run_ori.get_height()
 
@@ -36,7 +35,6 @@ class Player:
         self.facing_right = True
         self.is_moving = False
 
-        # ADICIONE ESTAS LINHAS NO FINAL DO SEU __init__:
         img_shot_ori = pygame.image.load('./assets/Shot_2.png').convert_alpha()
         largura_frame_shot = img_shot_ori.get_width() // 4
         altura_frame_shot = img_shot_ori.get_height()
@@ -64,7 +62,6 @@ class Player:
         return frames
 
     def update(self):
-        # ADICIONE ESTA LINHA NO INÍCIO DO SEU update():
         if self.shot_timer > 0:
             self.shot_timer -= 1
         else:
@@ -98,7 +95,6 @@ class Player:
         self.animate()
 
     def animate(self):
-        # SUBSTITUA O INÍCIO DA SUA FUNÇÃO animate() POR ISSO:
         self.current_frame += self.animation_speed
 
         if self.is_shooting:

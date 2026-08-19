@@ -3,7 +3,7 @@
 
 import pygame
 from code.const import WINDOW_WIDTH, WINDOW_HEIGHT
-
+import sys
 
 class Victory:
     def __init__(self, game):
@@ -17,7 +17,7 @@ class Victory:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    quit()
+                    sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:  # Pressione Enter para voltar ao menu
                         self.game.score = 0  # Zera a pontuação ao reiniciar

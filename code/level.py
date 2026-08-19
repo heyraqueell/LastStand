@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
 
 import pygame
 
@@ -61,7 +62,7 @@ class Level:
 
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()
+                sys.exit()
 
             if event.type == self.spawn_zombie_event:
                 self.spawn_zombie()

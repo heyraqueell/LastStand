@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
 
 import pygame
 from pygame import Surface, Rect
 from pygame.font import Font
-from code.difficulty import Difficulty
 
+from code.difficulty import Difficulty
 from code.const import WINDOW_WIDTH, COLOR_RED, MENU_OPTION, COLOR_WHITE
 
 
@@ -54,11 +55,33 @@ class Menu:
                         ((WINDOW_WIDTH / 2), 340 + 45 * i)
                     )
 
+            # Controles
+            self.menu_text(
+                22,
+                "CONTROLES",
+                COLOR_RED,
+                (WINDOW_WIDTH / 2, 525)
+            )
+
+            self.menu_text(
+                18,
+                "A / D ou SETAS - Mover",
+                COLOR_WHITE,
+                (WINDOW_WIDTH / 2, 550)
+            )
+
+            self.menu_text(
+                18,
+                "ESPAÇO - Atirar",
+                COLOR_WHITE,
+                (WINDOW_WIDTH / 2, 575)
+            )
+
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    quit()
+                    sys.exit()
 
                 if event.type == pygame.KEYDOWN:
 
@@ -96,10 +119,31 @@ class Menu:
 
         elif self.selected_option == 3:
             pygame.quit()
-            quit()
+            sys.exit()
 
-    def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
-            text_font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
-            text_surf = text_font.render(text, True, text_color).convert_alpha()
-            text_rect = text_surf.get_rect(center=text_center_pos)
-            self.window.blit(source=text_surf, dest=text_rect)
+    def menu_text(
+        self,
+        text_size: int,
+        text: str,
+        text_color: tuple,
+        text_center_pos: tuple
+    ):
+        text_font: Font = pygame.font.SysFont(
+            name="Lucida Sans Typewriter",
+            size=text_size
+        )
+
+        text_surf: Surface = text_font.render(
+            text,
+            True,
+            text_color
+        ).convert_alpha()
+
+        text_rect: Rect = text_surf.get_rect(
+            center=text_center_pos
+        )
+
+        self.window.blit(
+            source=text_surf,
+            dest=text_rect
+        )
